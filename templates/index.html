@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Burrow shopping</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, user-scalable=yes"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+    <ul> {% for item in data %} <li>
+            <input
+                type="checkbox"
+                id="item-{{item[0]}}"
+                autocomplete="off"
+                {% if item[4] %}checked{% endif %}
+            />
+            <label for="item-{{item[0]}}">{{item[1]}}</label>
+        </li> {% endfor %} {% if data|length == 0 %}<li id="no-groceries-found">No groceries found</li>{% endif %} </ul>
+    <script src="{{ url_for('static', filename='burrow-shopping.js') }}"></script>
+</body>
+
+</html>

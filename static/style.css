@@ -1,0 +1,215 @@
+/*
+Colour scheme is loosely based on the landing UI from the Nostromo spacecraft in Alien!
+*/
+
+/* Define variables */
+* {
+	--bg-color: #141e22;
+	--line-color: #1a3e49;
+	--text-color: #a4fbff;
+
+	--interactive-color: #318dad;
+	--interactive-color-2: #1d6881;
+	--interactive-color-3: #0e4152;
+	--checkbox-color: #3f9bbc;
+
+	--critical-color: #f44c27;
+	--critical-color-2: rgb(243, 129, 103);
+}
+
+/* Colours and fonts */
+html, body {
+	background: var(--bg-color);
+	font-family: "Acumin Variable", "Acumin Variable Concept", Helvetica, sans-serif;
+	max-width: 100%;
+	max-height: 100%;
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	box-sizing: border-box;
+	overflow-x: hidden;
+}
+
+h1,
+p,
+li {
+	color: var(--text-color);
+}
+
+hr {
+	border-color: var(--line-color);
+	margin: 0.5rem 0;
+}
+
+/* Page layout styling */
+body {
+	width: fit-content;
+	border: 2px solid var(--line-color);
+	max-width: 100%;
+	max-height: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	min-width: 800px;
+}
+
+h1 {
+	font-size: 16pt;
+	font-weight: 900;
+	letter-spacing: 0.05em;
+	line-height: 1;
+	margin: 0.5rem;
+	margin-top: 0.8rem;
+	text-align: center;
+}
+
+p,
+li,
+input {
+	font-size: 12pt !important;
+}
+
+.add-task-form,
+.clean-up-form {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-items: center;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0 0.5rem;
+}
+
+.clean-up-form {
+	margin-bottom: 0.5rem;
+	justify-content: space-evenly;
+}
+
+/* List styles */
+ul {
+	padding-left: 0;
+	min-height: 5rem;
+	display: flex;
+	flex-flow: column nowrap;
+	margin: 0;
+	flex-grow: 1;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+li {
+	list-style-type: none;
+	margin: 0.5rem;
+	width: 100%;
+}
+
+#no-groceries-found {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	margin: 1rem auto 0.8rem;
+	color: var(--interactive-color-2);
+}
+
+/* Navigation */
+nav {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.25rem;
+	padding: 0 0.25rem;
+	margin-bottom: 0.8rem;
+}
+
+nav a {
+	font-size: 80%;
+	text-decoration: none;
+	text-align: center;
+	padding-top: 0.5rem;
+	padding-bottom: 0.25rem;
+	border: 1px solid var(--interactive-color-2);
+	border-top: 0;
+	background-color: var(--interactive-color-3);
+	opacity: 0.5;
+	color: var(--interactive-color);
+	cursor: pointer;
+	font-weight: 600;
+	border-radius: 0 0 4px 4px;
+	line-height: 2;
+}
+
+nav .selected {
+	background-color: var(--interactive-color-3);
+	color: var(--text-color);
+	opacity: 1;
+	font-weight: 800;
+}
+
+/* Checkboxes */
+input[type="checkbox"],
+input[type="checkbox"]+label {
+	cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+	accent-color: var(--checkbox-color);
+}
+
+input[type="checkbox"]:checked+label {
+	text-decoration: line-through;
+	color: var(--interactive-color);
+	opacity: 60%;
+}
+
+/* Other input fields */
+input[type="submit"],
+input[type="button"],
+input[type="text"] {
+	border: 1px solid var(--interactive-color-2);
+	border-radius: 4px;
+	height: 100%;
+	flex-grow: 1;
+}
+
+input[type="text"] {
+	cursor: text;
+	padding: 0 0.25rem;
+	background-color: transparent;
+	color: var(--text-color);
+	line-height: 2;
+	min-width: 0;
+}
+
+input[type="submit"],
+input[type="button"] {
+	padding: 0.25rem 0.5rem;
+	cursor: pointer;
+	font-weight: 600;
+	background-color: var(--interactive-color);
+	line-height: 2;
+	font-size: 80% !important;
+}
+
+input[type="submit"]:not(:disabled):active,
+input[type="button"]:not(:disabled):active {
+	background-color: var(--text-color);
+}
+
+.button-critical:not(:disabled):active {
+	background-color: var(--critical-color-2) !important;
+	border-color: var(--critical-color) !important;
+}
+
+input[type="submit"]:disabled,
+input[type="button"]:disabled {
+	cursor: default;
+	background-color: var(--line-color) !important;
+	color: #141e22 !important;
+}
+
+
+/* Mobile layouts */
+@media (max-width:800px) {
+	html,
+	body {
+		width: 100%;
+		min-width: 0;
+	}
+}
