@@ -14,15 +14,14 @@
 </head>
 
 <body>
-    <ul> {% for item in data %} <li>
+    <div class="grid"> {% for item in data %} <label for="item-{{item[0]}}">
             <input
                 type="checkbox"
                 id="item-{{item[0]}}"
                 autocomplete="off"
                 {% if item[4] %}checked{% endif %}
-            />
-            <label for="item-{{item[0]}}">{{item[1]}}</label>
-        </li> {% endfor %} {% if data|length == 0 %}<li id="no-groceries-found">No groceries found</li>{% endif %} </ul>
+            /> <span>{{item[1]}}</span></label> {% endfor %} {% if data|length == 0 %}<p id="no-groceries-found">No groceries found
+        </p>{% endif %} </div>
     <script src="{{ url_for('static', filename='burrow-shopping.js') }}"></script>
 </body>
 
