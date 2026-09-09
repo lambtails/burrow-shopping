@@ -56,7 +56,7 @@ def index():
             """
             SELECT *
             FROM ShoppingList
-            ORDER BY Done ASC, LastUpdated ASC;
+            ORDER BY Done ASC, Category ASC, LastUpdated ASC;
             """,
         )
         data = cursor.fetchall()
