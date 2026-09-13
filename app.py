@@ -11,13 +11,21 @@ detect_types = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
 # Create database table if it doesn't exist
 with sqlite3.connect(db, detect_types=detect_types) as connect:
     connect.execute("""
-        CREATE TABLE IF NOT EXISTS ShoppingList (
-        RowID INTEGER NOT NULL PRIMARY KEY,
-        Item TEXT NOT NULL,
-        Category TEXT,
-        LastUpdated TIMESTAMP,
-        Done BOOL NOT NULL,
-        UNIQUE(Item)
+        CREATE TABLE IF NOT EXISTS groceries (
+            groceryname TEXT NOT NULL PRIMARY KEY,
+            category TEXT,
+            icon TEXT,
+            colour TEXT
+        );
+        """)
+    connect.execute("""
+        CREATE TABLE IF NOT EXISTS shoppinglist (
+            rowid INTEGER NOT NULL PRIMARY KEY,
+            listgrocery TEXT NOT NULL,
+            lastupdated TIMESTAMP,
+            done BOOL NOT NULL,
+            FOREIGN KEY(listgrocery) REFERENCES groceries(groceryname),
+            UNIQUE(listgrocery)
         );
         """)
 
@@ -31,12 +39,32 @@ with open("groceries.csv", "r") as csv_file:
     with sqlite3.connect(db, detect_types=detect_types) as connect:
         cursor = connect.cursor()
         for row in grocery_reader:
+            # Add new rows for groceries
             cursor.execute(
                 """
-                INSERT OR IGNORE INTO ShoppingList (Item, Category, Done, LastUpdated) 
+                INSERT OR IGNORE INTO groceries (groceryname, category, icon, colour) 
                 VALUES (?,?,?,?);
                 """,
-                (row[0], row[1], True, datetime.datetime.now()),
+                (row[0], row[1], row[2], row[3]),
+            )
+
+            # Update all existing groceries with any new data
+            cursor.execute(
+                """
+                UPDATE groceries
+                SET category=?, icon=?, colour=?
+                WHERE groceryname=?;
+                """,
+                (row[1], row[2], row[3], row[0]),
+            )
+
+            # Also add new groceries into the shopping list (so they can be shopped)
+            cursor.execute(
+                """
+                INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
+                VALUES (?,?,?);
+                """,
+                (row[0], datetime.datetime.now(), True),
             )
         connect.commit()
         cursor.close()
@@ -53,19 +81,22 @@ def index():
     with sqlite3.connect(db, detect_types=detect_types) as connect:
         cursor = connect.cursor()
         cursor.execute(
+            # TODO: update this to fetch category from groceries table
             """
-            SELECT *
-            FROM ShoppingList
-            ORDER BY Done ASC, Category ASC, LastUpdated ASC;
+            SELECT rowid, groceryname, category, icon, colour, lastupdated, done
+            FROM shoppinglist
+            INNER JOIN groceries ON shoppinglist.listgrocery = groceries.groceryname
+            ORDER BY done ASC, category ASC, lastupdated ASC;
             """,
         )
-        data = cursor.fetchall()
+        names = list(map(lambda x: x[0], cursor.description))
+        data = [dict(zip(names, row)) for row in cursor.fetchall()]
         cursor.close()
 
     # Render webpage
     return render_template(
         "index.html",
-        data=data,
+        data=data
     )
 
 
@@ -80,9 +111,9 @@ def update():
         cursor = connect.cursor()
         cursor.execute(
             """
-            UPDATE ShoppingList
-            SET Done=?, LastUpdated=?
-            WHERE RowID=?;
+            UPDATE shoppinglist
+            SET done=?, lastupdated=?
+            WHERE rowid=?;
             """,
             (done, datetime.datetime.now(), row_id),
         )

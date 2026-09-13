@@ -14,14 +14,24 @@
 </head>
 
 <body>
-    <div class="grid"> {% for item in data %} <label for="item-{{item[0]}}">
+    <div class="grid">
+        {% for row in data %}
+        <label for="item-{{row['rowid']}}"
+                class="{% if row['icon']|length != 0 %}icon{% endif %}"
+                style="{% if row['icon']|length != 0 %}--icon: url('{{ url_for('static', filename='icon/'+row['icon']) }}');{% endif %}
+                        {% if row['category'] == 'freezer' %}--modifier: true; --icon-modifier: url('{{ url_for('static', filename='icon/freezer.png') }}');{% endif %}
+                        {% if row['colour']|length != 0 %}--icon-color: {{row['colour']}};{% endif %}">
             <input
                 type="checkbox"
-                id="item-{{item[0]}}"
+                id="item-{{row['rowid']}}"
                 autocomplete="off"
-                {% if item[4] %}checked{% endif %}
-            /> <span>{{item[1]}}</span></label> {% endfor %} {% if data|length == 0 %}<p id="no-groceries-found">No groceries found
-        </p>{% endif %} </div>
+                {% if row['done'] %}checked{% endif %}
+            />
+            <span>{{row['groceryname']}}</span>
+        </label>
+        {% endfor %}
+        {% if data|length == 0 %}<p id="no-groceries-found">No groceries found</p>{% endif %}
+    </div>
     <script src="{{ url_for('static', filename='burrow-shopping.js') }}"></script>
 </body>
 
