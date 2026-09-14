@@ -91,6 +91,11 @@ def index():
         )
         names = list(map(lambda x: x[0], cursor.description))
         data = [dict(zip(names, row)) for row in cursor.fetchall()]
+        for i in range(len(data)):
+            row = data[i]
+            if row['icon'] == '':
+                row['icon'] = 'pixel.png'
+            data[i] = row
         cursor.close()
 
     # Render webpage

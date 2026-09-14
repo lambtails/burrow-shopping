@@ -29,12 +29,24 @@ body {
 	background: var(--bg-color);
 	font-family: "Acumin Variable", "Acumin Variable Concept", Helvetica, sans-serif;
 	max-width: 100%;
-	max-height: 100%;
 	width: 100vw;
-	height: 100vh;
+	min-height: 100vh;
 	margin: 0;
 	box-sizing: border-box;
 	overflow-x: hidden;
+}
+
+body {
+	min-width: 800px;
+	width: fit-content;
+	border: 2px solid var(--line-color);
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+hr {
+	border-color: var(--line-color);
+	margin: 0.5rem 0;
 }
 
 h1,
@@ -43,22 +55,7 @@ li {
 	color: var(--text-color);
 }
 
-hr {
-	border-color: var(--line-color);
-	margin: 0.5rem 0;
-}
-
 /* Page layout styling */
-body {
-	width: fit-content;
-	border: 2px solid var(--line-color);
-	max-width: 100%;
-	max-height: 100%;
-	display: flex;
-	flex-flow: column nowrap;
-	min-width: 800px;
-}
-
 h1 {
 	font-size: 16pt;
 	font-weight: 900;
@@ -75,28 +72,20 @@ input {
 	font-size: 12pt !important;
 }
 
-/* Grid styles */
+/* Grid styling */
 .grid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 0.5rem;
+	gap: min(1vw, 8px);
 	padding: 2rem 0.5rem;
-	overflow-y: scroll;
 	max-width: 800px;
-	--icon-color: yellow;
-	--icon-modifier: url("icon/pixel.png");
+	--icon-color: Gray;
 }
 
-.grid label {
+/* Item icon styling */
+.item {
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	padding: 0.25rem;
-	border: 1px solid var(--interactive-color-2);
-	background-color: var(--interactive-color-2);
-	color: var(--text-color);
-	border-radius: 4px;
-	line-height: 1.2;
 	max-width: 100%;
 	aspect-ratio: 1;
 	text-align: center;
@@ -108,25 +97,58 @@ input {
 	cursor: pointer;
 }
 
-.grid label:has(input[type="checkbox"]:checked) {
-	text-decoration: line-through;
+.item:has(input[type="checkbox"]:checked) {
 	color: var(--interactive-color);
 	opacity: 60%;
 	background-color: var(--interactive-color-3);
 }
 
-.grid label span {
-	display: block;
-}
-
-.grid label input[type="checkbox"] {
+.item input[type="checkbox"] {
 	width: 0;
 	height: 0;
 	margin: 0;
 	padding: 0;
 }
 
-.grid label.icon {
+.item .icon {
+	display: block;
+	position: absolute;
+	z-index: 2;
+	top: min(1vw, 8px);
+	left: min(1vw, 8px);
+	width: calc(100% - min(2vw, 16px));
+	height: calc(100% - min(2vw, 16px));
+	filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+}
+
+.item span {
+	display: block;
+	padding: 0 0.25rem;
+	z-index: 4;
+	filter:drop-shadow(1px 0 0 black) drop-shadow(-1px 0 0 black) drop-shadow(0 1px 0 black) drop-shadow(0 -1px 0 black) drop-shadow(0 0 1px black);
+}
+
+.item .modifier-right {
+	display: block;
+	position: absolute;
+	z-index: 4;
+	top: 0;
+	right: 0;
+	width: 30%;
+	height: 30%;
+	background-image: linear-gradient(to right top, rgba(88, 175, 230, 0.3), rgba(42,79,102,0.5));
+	border-bottom-left-radius: 50%;
+	box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.5), 5px 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.item .modifier-right img {
+	width: 66%;
+	height: 66%;
+	padding: 17%;
+	filter: drop-shadow(1px 1px 1px rgba(0,0,0,1));
+}
+
+.item:has(.icon) {
 	align-items: end;
 	padding: 0.25rem;
 	position: relative;
@@ -136,10 +158,10 @@ input {
 	color: white;
 	z-index: 1;
 	background-color: var(--icon-color);
-	background-image: var(--icon), url("icon/pattern.png"), linear-gradient(to bottom, rgba(80, 250, 80, 0), rgba(159, 255, 159, 0) 40%, rgba(194, 250, 194, 1) 90%);
-	background-repeat: no-repeat, repeat, no-repeat;
-	background-position: center;
-	background-size: cover, 10px, cover;
+	background-image: url("icon/pattern.png"), linear-gradient(to bottom, rgba(80, 250, 80, 0), rgba(159, 255, 159, 0) 40%, rgba(194, 250, 194, 1) 90%);
+	background-repeat:  repeat, no-repeat;
+	background-position: center, center;
+	background-size: 10px, cover;
 	box-shadow: inset 5px 5px 12px rgba(0, 0, 0, 0.5), 5px 5px 10px rgba(0, 0, 0, 1);
 	border-radius: 20%;
 	border: 2px solid black;
@@ -147,10 +169,10 @@ input {
 	-webkit-background-clip: padding-box;
 	background-clip: padding-box;
 	overflow: hidden;
-	text-decoration: none !important;
+	text-align:center;
 }
 
-.grid label.icon::before {
+.item:has(.icon)::before {
 	content: "";
 	display: block;
 	position: absolute;
@@ -158,13 +180,11 @@ input {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-image: linear-gradient(to bottom, transparent, transparent 60%, rgba(255,255,255,0.5) 90%), var(--icon-modifier);
-	background-repeat: no-repeat;
-	background-position: center, right 0 top 0;
-	background-size: contain, 30%;
+	z-index: 3;
+	background-image: linear-gradient(to bottom, transparent, transparent 60%, rgba(255,255,255,0.7) 90%);
 }
 
-.grid label.icon::after {
+.item:has(.icon)::after {
 	content: "";
 	display: block;
 	position: absolute;
@@ -172,16 +192,9 @@ input {
 	left: -30px;
 	width: calc(100% + 60px);
 	height: 55%;
+	z-index: 4;
 	border-radius: 0 0 50% 50%;
 	background-image: linear-gradient(rgba(255,255,255,0.1),rgba(255,255,255,0.4));
-}
-
-.grid label.icon * {
-	z-index: 2;
-}
-
-.grid label.icon span {
-	text-shadow: 1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black, 0 0 4px black;
 }
 
 #no-groceries-found {
@@ -194,7 +207,7 @@ input {
 
 /* Checkboxes */
 input[type="checkbox"],
-input[type="checkbox"]+label {
+input[type="checkbox"]+.item {
 	cursor: pointer;
 }
 
@@ -202,10 +215,16 @@ input[type="checkbox"]:checked {
 	accent-color: var(--checkbox-color);
 }
 
-input[type="checkbox"]:checked+label {
-	text-decoration: line-through;
+input[type="checkbox"]:checked+.item {
 	color: var(--interactive-color);
 	opacity: 60%;
+}
+
+.item:has(.icon):has(input[type="checkbox"]:not(:checked)) {
+	background-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0) 40%), linear-gradient(to bottom, var(--icon-color), rgba(0,0,0, 0) 40%), url("icon/pattern.png"), linear-gradient(to bottom, rgba(80, 250, 80, 0), rgba(159, 255, 159, 0) 40%, rgba(194, 250, 194, 1) 90%);
+	background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+	background-position: center, center, center, center;
+	background-size: cover, cover, 10px, cover;
 }
 
 /* Other input fields */
@@ -270,8 +289,8 @@ input[type="button"]:disabled {
 		grid-template-columns: repeat(3, 1fr);
 	}
 
-	.grid label.icon {
-		font-size: 100%;
+	.item {
+		font-size: 4vw;
 	}
 }
 
@@ -280,8 +299,8 @@ input[type="button"]:disabled {
 		grid-template-columns: repeat(4, 1fr);
 	}
 
-	.grid label.icon {
-		font-size: 110%;
+	.item {
+		font-size: 3vw;
 	}
 }
 
@@ -290,7 +309,7 @@ input[type="button"]:disabled {
 		grid-template-columns: repeat(5, 1fr);
 	}
 
-	.grid label.icon {
-		font-size: 120%;
+	.item {
+		font-size: min(2.4vw, 19.2px);
 	}
 }
