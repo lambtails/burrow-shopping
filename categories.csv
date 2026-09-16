@@ -1,0 +1,19 @@
+Category,Colour,Modifier
+fruit,LawnGreen,
+veggies,MediumSeaGreen,
+freezer,DarkTurquoise,ice.png
+meat,IndianRed,
+dairy,Ivory,
+juice,Ivory,
+eggs,Ivory,
+personal care,DodgerBlue,
+household,DodgerBlue,
+health,RoyalBlue,plus.png
+snacks,MediumOrchid,
+drinks,MediumSlateBlue,
+cereal,DarkOrange,
+grains and pasta,DarkOrange,
+bread,DarkOrange,
+canned,SandyBrown,can.png
+sauces,SandyBrown,
+spices,Burlywood,

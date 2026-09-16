@@ -8,71 +8,108 @@ import csv
 db = "database.db"
 detect_types = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
 
-# Create database table if it doesn't exist
-with sqlite3.connect(db, detect_types=detect_types) as connect:
-    connect.execute("""
-        CREATE TABLE IF NOT EXISTS groceries (
-            groceryname TEXT NOT NULL PRIMARY KEY,
-            category TEXT,
-            icon TEXT,
-            colour TEXT
-        );
-        """)
-    connect.execute("""
-        CREATE TABLE IF NOT EXISTS shoppinglist (
-            rowid INTEGER NOT NULL PRIMARY KEY,
-            listgrocery TEXT NOT NULL,
-            lastupdated TIMESTAMP,
-            done BOOL NOT NULL,
-            FOREIGN KEY(listgrocery) REFERENCES groceries(groceryname),
-            UNIQUE(listgrocery)
-        );
-        """)
-
-# Load groceries into database if they're not already in it
-with open("groceries.csv", "r") as csv_file:
-    # Load csv file and skip header
-    grocery_reader = csv.reader(csv_file, delimiter=",", quotechar='"')
-    next(grocery_reader, None)
-
-    # Connect to database and add groceries
+def setup_database():
+    # Create database table if it doesn't exist
     with sqlite3.connect(db, detect_types=detect_types) as connect:
-        cursor = connect.cursor()
-        for row in grocery_reader:
-            # Add new rows for groceries
-            cursor.execute(
-                """
-                INSERT OR IGNORE INTO groceries (groceryname, category, icon, colour) 
-                VALUES (?,?,?,?);
-                """,
-                (row[0], row[1], row[2], row[3]),
-            )
+        connect.execute("""
+            CREATE TABLE IF NOT EXISTS groceries (
+                groceryname TEXT NOT NULL PRIMARY KEY,
+                category TEXT,
+                icon TEXT
+            );
+            """)
+        connect.execute("""
+            CREATE TABLE IF NOT EXISTS categories (
+                category TEXT NOT NULL PRIMARY KEY,
+                colour TEXT,
+                modifier TEXT
+            );
+            """)
+        connect.execute("""
+            CREATE TABLE IF NOT EXISTS shoppinglist (
+                rowid INTEGER NOT NULL PRIMARY KEY,
+                listgrocery TEXT NOT NULL,
+                lastupdated TIMESTAMP,
+                done BOOL NOT NULL,
+                FOREIGN KEY(listgrocery) REFERENCES groceries(groceryname),
+                UNIQUE(listgrocery)
+            );
+            """)
 
-            # Update all existing groceries with any new data
-            cursor.execute(
-                """
-                UPDATE groceries
-                SET category=?, icon=?, colour=?
-                WHERE groceryname=?;
-                """,
-                (row[1], row[2], row[3], row[0]),
-            )
+    # Load categories into database if they're not already in it
+    with open("categories.csv", "r") as csv_file:
+        # Load csv
+        category_reader = csv.reader(csv_file, delimiter=",", quotechar='"')
+        next(category_reader, None)
 
-            # Also add new groceries into the shopping list (so they can be shopped)
-            cursor.execute(
-                """
-                INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
-                VALUES (?,?,?);
-                """,
-                (row[0], datetime.datetime.now(), True),
-            )
-        connect.commit()
-        cursor.close()
+        # Connect to database and add categories
+        with sqlite3.connect(db, detect_types=detect_types) as connect:
+            cursor = connect.cursor()
+            for row in category_reader:
+                # Add new rows for categories
+                cursor.execute(
+                    """
+                        INSERT OR IGNORE INTO categories (category, colour, modifier) 
+                        VALUES (?,?,?);
+                        """,
+                    (row[0], row[1], row[2]),
+                )
+
+                # Update all existing categories with any new data
+                cursor.execute(
+                    """
+                    UPDATE categories
+                    SET colour=?, modifier=?
+                    WHERE category=?;
+                    """,
+                    (row[1], row[2], row[0]),
+                )
+
+    # Load groceries into database if they're not already in it
+    with open("groceries.csv", "r") as csv_file:
+        # Load csv file and skip header
+        grocery_reader = csv.reader(csv_file, delimiter=",", quotechar='"')
+        next(grocery_reader, None)
+
+        # Connect to database and add groceries
+        with sqlite3.connect(db, detect_types=detect_types) as connect:
+            cursor = connect.cursor()
+            for row in grocery_reader:
+                # Add new rows for groceries
+                cursor.execute(
+                    """
+                    INSERT OR IGNORE INTO groceries (groceryname, category, icon) 
+                    VALUES (?,?,?);
+                    """,
+                    (row[0], row[1], row[2]),
+                )
+
+                # Update all existing groceries with any new data
+                cursor.execute(
+                    """
+                    UPDATE groceries
+                    SET category=?, icon=?
+                    WHERE groceryname=?;
+                    """,
+                    (row[1], row[2], row[0]),
+                )
+
+                # Also add new groceries into the shopping list (so they can be shopped)
+                cursor.execute(
+                    """
+                    INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
+                    VALUES (?,?,?);
+                    """,
+                    (row[0], datetime.datetime.now(), True),
+                )
+            connect.commit()
+            cursor.close()
 
 
 # Start flask app and define URL routes
 app = Flask(__name__, static_folder="static")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+setup_database()
 
 
 @app.route("/", methods=["GET"])
@@ -83,26 +120,24 @@ def index():
         cursor.execute(
             # TODO: update this to fetch category from groceries table
             """
-            SELECT rowid, groceryname, category, icon, colour, lastupdated, done
+            SELECT rowid, groceryname, groceries.category AS category, icon, colour, lastupdated, done, modifier
             FROM shoppinglist
             INNER JOIN groceries ON shoppinglist.listgrocery = groceries.groceryname
-            ORDER BY done ASC, category ASC, lastupdated ASC;
+            INNER JOIN categories ON groceries.category = categories.category
+            ORDER BY done ASC, colour ASC, groceries.category ASC, lastupdated ASC;
             """,
         )
         names = list(map(lambda x: x[0], cursor.description))
         data = [dict(zip(names, row)) for row in cursor.fetchall()]
         for i in range(len(data)):
             row = data[i]
-            if row['icon'] == '':
-                row['icon'] = 'pixel.png'
+            if row["icon"] == "":
+                row["icon"] = "pixel.png"
             data[i] = row
         cursor.close()
 
     # Render webpage
-    return render_template(
-        "index.html",
-        data=data
-    )
+    return render_template("index.html", data=data)
 
 
 @app.route("/update", methods=["POST"])
