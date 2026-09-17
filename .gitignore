@@ -1,6 +1,3 @@
 .venv
 *.db
 __pycache__
-
-groceries.*
-groceries.csv

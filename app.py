@@ -8,6 +8,7 @@ import csv
 db = "database.db"
 detect_types = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
 
+
 def setup_database():
     # Create database table if it doesn't exist
     with sqlite3.connect(db, detect_types=detect_types) as connect:
@@ -15,7 +16,10 @@ def setup_database():
             CREATE TABLE IF NOT EXISTS groceries (
                 groceryname TEXT NOT NULL PRIMARY KEY,
                 category TEXT,
-                icon TEXT
+                icon TEXT,
+                tags TEXT,
+                aldi BOOL,
+                coles BOOL
             );
             """)
         connect.execute("""
@@ -78,20 +82,20 @@ def setup_database():
                 # Add new rows for groceries
                 cursor.execute(
                     """
-                    INSERT OR IGNORE INTO groceries (groceryname, category, icon) 
-                    VALUES (?,?,?);
+                    INSERT OR IGNORE INTO groceries (groceryname, category, icon, aldi, coles, tags) 
+                    VALUES (?,?,?,?,?,?);
                     """,
-                    (row[0], row[1], row[2]),
+                    (row[0], row[1], row[2], row[3], row[4], row[5]),
                 )
 
                 # Update all existing groceries with any new data
                 cursor.execute(
                     """
                     UPDATE groceries
-                    SET category=?, icon=?
+                    SET category=?, icon=?, aldi=?, coles=?, tags=?
                     WHERE groceryname=?;
                     """,
-                    (row[1], row[2], row[0]),
+                    (row[1], row[2], row[3], row[4], row[5], row[0]),
                 )
 
                 # Also add new groceries into the shopping list (so they can be shopped)
@@ -120,19 +124,21 @@ def index():
         cursor.execute(
             # TODO: update this to fetch category from groceries table
             """
-            SELECT rowid, groceryname, groceries.category AS category, icon, colour, lastupdated, done, modifier
+            SELECT rowid, groceryname, groceries.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
             FROM shoppinglist
             INNER JOIN groceries ON shoppinglist.listgrocery = groceries.groceryname
             INNER JOIN categories ON groceries.category = categories.category
-            ORDER BY done ASC, colour ASC, groceries.category ASC, lastupdated ASC;
+            ORDER BY done ASC, groceries.category ASC, lastupdated ASC;
             """,
         )
         names = list(map(lambda x: x[0], cursor.description))
         data = [dict(zip(names, row)) for row in cursor.fetchall()]
+        defaults = {"icon": "pixel.png", "aldi": "true", "coles": "true"}
         for i in range(len(data)):
             row = data[i]
-            if row["icon"] == "":
-                row["icon"] = "pixel.png"
+            for k, v in defaults.items():
+                if row[k] == "":
+                    row[k] = v
             data[i] = row
         cursor.close()
 
