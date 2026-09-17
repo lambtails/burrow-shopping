@@ -20,18 +20,18 @@ Zucchini,veggies,,true,true,vegetables
 Parsley,veggies,,true,true,vegetables herbs
 Ginger,veggies,,true,true,vegetables spices
 Frozen peas,freezer,,true,true,veggies vegetables
-Frozen corn,freezer,,true,true,veggies vegetables
+Frozen corn,freezer,cornkernels.png,true,true,veggies vegetables
 Meat pies,freezer,,true,true,
 Frozen strawberry,freezer,,true,true,fruit
 Frozen blueberry,freezer,,true,true,fruit
 Frozen mango,freezer,mango.png,true,true,fruit
 Ice cream,freezer,,true,true,dessert
-Bacon,meat,,true,true,pork
+Bacon,meat,bacon.png,true,true,pork
 Hot dogs,meat,,true,false,pork
 Chicken breast,meat,,true,true,
 Beef mince,meat,,true,true,
 Pork + beef mince,meat,,true,true,
-Steak,meat,,true,true,beef
+Steak,meat,steak.png,true,true,beef
 Casserole beef,meat,,true,true,
 Ham,meat,,true,true,pork
 Sliced tasty,dairy,,true,true,cheese
@@ -94,8 +94,8 @@ Salsa,sauces,,false,true,mexican
 Tomato paste,sauces,,true,true,
 Kewpie,sauces,kewpie.png,false,true,mayo
 Kewpie Sriracha,sauces,kewpiesriracha.png,false,true,mayo
-Tomato sauce,sauces,,true,false,
-American mustard,sauces,,false,true,yellow mustard
+Tomato sauce,sauces,tomatosauce.png,true,false,red
+American mustard,sauces,mustard.png,false,true,yellow mustard
 Wholegrain mustard,sauces,,true,true,
 Dijon mustard,sauces,,true,true,
 Mayo,sauces,,true,true,
@@ -109,7 +109,7 @@ Chicken stock,sauces,,true,true,
 Black beans,canned,,true,true,
 Pinto beans,canned,,true,true,
 Kidney beans,canned,,true,true,
-Canned corn,canned,,true,true,
+Canned corn,canned,cannedcorn.png,true,true,
 Coconut milk,canned,,true,true,
 Garlic powder,spices,,false,true,
 Onion powder,spices,,false,true,
