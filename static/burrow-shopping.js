@@ -42,10 +42,43 @@ store_selector.addEventListener("input", (ev) => {
 const search = document.getElementById("search");
 search.addEventListener("input", (ev)=>{
     // I'm also using CSS for the search, since it technically supports substring matching
-    const search_string = ev.target.value.toString().toLowerCase();
+    const search_string = ev.target.value.toString().toUpperCase();
     document.getElementById("dynamic-css").innerHTML = (
         search_string === "" 
             ? ""
             : `.grid .item:not([data-search*="${search_string}"]) {display:none;}`
     );
+});
+
+
+/**
+ * Add new item button
+ */
+const addNewGrocery = (name) => {
+    const url = "/new-item";
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: name,
+        }),
+    };
+    fetch(url, options)
+        .then((response) => response.text())
+        .catch((error) => console.error("Error:", error));
+};
+
+const new_item = document.getElementById("new-item");
+new_item.addEventListener("click", (ev) => {
+    // Get user to input a string (without having to use a whole UI library)
+    let item_name = prompt("Enter new item name");
+    if (item_name != null) {
+        // Add new grocery to database
+        addNewGrocery(item_name);
+
+        // Refresh page
+        setTimeout(()=>{window.location.reload()}, 100);
+    }
 });

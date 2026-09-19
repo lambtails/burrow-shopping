@@ -3,6 +3,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import sqlite3
 import datetime
 import csv
+import re
 
 # Create database connection
 db = "database.db"
@@ -50,13 +51,18 @@ def setup_database():
         with sqlite3.connect(db, detect_types=detect_types) as connect:
             cursor = connect.cursor()
             for row in category_reader:
+                # Get CSV data
+                category = row[0].upper()
+                colour = row[1]
+                modifier = row[2]
+
                 # Add new rows for categories
                 cursor.execute(
                     """
                         INSERT OR IGNORE INTO categories (category, colour, modifier) 
                         VALUES (?,?,?);
                         """,
-                    (row[0], row[1], row[2]),
+                    (category, colour, modifier),
                 )
 
                 # Update all existing categories with any new data
@@ -66,7 +72,7 @@ def setup_database():
                     SET colour=?, modifier=?
                     WHERE category=?;
                     """,
-                    (row[1], row[2], row[0]),
+                    (colour, modifier, category),
                 )
 
     # Load groceries into database if they're not already in it
@@ -79,13 +85,21 @@ def setup_database():
         with sqlite3.connect(db, detect_types=detect_types) as connect:
             cursor = connect.cursor()
             for row in grocery_reader:
+                # Get CSV data
+                name = row[0].upper()
+                category = row[1].upper()
+                icon = row[2]
+                aldi = row[3]
+                coles = row[4]
+                tags = row[5].upper()
+
                 # Add new rows for groceries
                 cursor.execute(
                     """
                     INSERT OR IGNORE INTO groceries (groceryname, category, icon, aldi, coles, tags) 
                     VALUES (?,?,?,?,?,?);
                     """,
-                    (row[0], row[1], row[2], row[3], row[4], row[5]),
+                    (name, category, icon, aldi, coles, tags),
                 )
 
                 # Update all existing groceries with any new data
@@ -95,7 +109,7 @@ def setup_database():
                     SET category=?, icon=?, aldi=?, coles=?, tags=?
                     WHERE groceryname=?;
                     """,
-                    (row[1], row[2], row[3], row[4], row[5], row[0]),
+                    (category, icon, aldi, coles, tags, name),
                 )
 
                 # Also add new groceries into the shopping list (so they can be shopped)
@@ -104,7 +118,7 @@ def setup_database():
                     INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
                     VALUES (?,?,?);
                     """,
-                    (row[0], datetime.datetime.now(), True),
+                    (name, datetime.datetime.now(), True),
                 )
             connect.commit()
             cursor.close()
@@ -122,7 +136,6 @@ def index():
     with sqlite3.connect(db, detect_types=detect_types) as connect:
         cursor = connect.cursor()
         cursor.execute(
-            # TODO: update this to fetch category from groceries table
             """
             SELECT rowid, groceryname, groceries.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
             FROM shoppinglist
@@ -168,6 +181,58 @@ def update():
 
     # Return empty string
     return ""
+
+
+@app.route("/new-item", methods=["POST"])
+def new_item():
+    # Get data from the JSON request
+    name: str = request.json.get("name")
+
+    # Validate/sanitize the input name
+    name = re.sub(r"[^A-Za-z\d\s,.-]+", "", name)
+    name = name.strip().upper()
+    if len(name) == 0:
+        return ""
+
+    # Add the new item to the shopping list with default parameters
+    with sqlite3.connect(db, detect_types=detect_types) as connect:
+        cursor = connect.cursor()
+
+        # Add to groceries database
+        cursor.execute(
+            """
+            INSERT OR IGNORE INTO groceries (groceryname, category, icon, aldi, coles, tags) 
+            VALUES (?,?,?,?,?,?);
+            """,
+            (name, "DEFAULT", "", True, True, ""),
+        )
+
+        # Add to shopping list
+        cursor.execute(
+            """
+            INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
+            VALUES (?,?,?);
+            """,
+            (name, datetime.datetime.now(), False),
+        )
+
+        # Set done to False since we assume the user wants to mark new items for shopping
+        # This also means if the user enters an item already in the list, it will still update something
+        # Rather than appearing to fail silently
+        cursor.execute(
+            """
+            UPDATE shoppinglist
+            SET done=?, lastupdated=?
+            WHERE listgrocery=?;
+            """,
+            (False, datetime.datetime.now(), name),
+        )
+
+        connect.commit()
+        cursor.close()
+
+    # Refresh the page
+    return app.redirect(app.url_for(endpoint="index"))
 
 
 if __name__ == "__main__":

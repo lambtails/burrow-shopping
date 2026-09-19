@@ -14,7 +14,7 @@ Green beans,veggies,,true,true,vegetables
 Mushrooms,veggies,,true,true,vegetables
 Potatoes,veggies,,true,true,vegetables
 Carrots,veggies,carrots.png,true,true,vegetables
-Red capsicum,veggies,,true,true,vegetables
+Red capsicum,veggies,redcapsicum.png,true,true,vegetables
 Green capsicum,veggies,,true,true,vegetables
 Zucchini,veggies,,true,true,vegetables
 Parsley,veggies,,true,true,vegetables herbs
@@ -46,19 +46,19 @@ Sour cream,dairy,,true,true,
 Orange juice,juice,,true,true,
 Eggs,eggs,,true,true,
 Floss picks,personal care,flosspick.png,true,true,dental teeth
-Electrolyte tablets,health,,true,true,
-Vitamin C tablets,health,,true,true,
-Makeup removal pads,personal care,,true,true,
+Makeup removal pads,personal care,makeup-removers.png,true,true,
 Sensodyne toothpaste,personal care,sensodyne.png,true,true,dental teeth
 Colgate toothpaste,personal care,colgate.png,true,true,dental teeth
 Toothbrush heads,personal care,,true,true,dental teeth
+Electrolyte tablets,health,electrolytetablet.png,true,true,
+Vitamin C tablets,health,,true,true,
 Vaporub,health,vaporub.png,false,true,
 Throat lozenges,health,,false,true,
 Bandaids,health,,false,true,
 Toilet paper,household,,true,true,
-Paper towel,household,,true,true,cleaning
+Paper towel,household,papertowel.png,true,true,cleaning
 Dishwasher powder,household,,true,false,
-Dish sponge,household,,true,true,cleaning
+Dish sponge,household,sponge.png,true,true,cleaning
 Nitrile gloves,household,nitrilegloves.png,false,true,cleaning
 Foam soap refill,household,,true,false,
 Stain remover,household,,true,true,cleaning
@@ -67,7 +67,7 @@ Popcorn,snacks,,false,true,
 Corn chips,snacks,,false,true,mexican
 Nacho chips,snacks,,false,true,corn chips mexican
 Cookies,snacks,,false,true,
-Gummy worms,snacks,,true,true,
+Gummy worms,snacks,gummyworms.png,true,true,
 Rice crackers,snacks,,true,false,
 Cola,drinks,,true,true,pepsi
 Hot chocolate,drinks,hotchoc.png,false,true,
@@ -114,7 +114,7 @@ Coconut milk,canned,,true,true,
 Garlic powder,spices,,false,true,
 Onion powder,spices,,false,true,
 Paprika,spices,,false,true,
-Salt,spices,,true,true,
+Salt,spices,salt.png,true,true,
 Pepper,spices,,true,true,
 Curry powder,spices,currypowder.png,false,true,
 Cayenne pepper,spices,,false,true,

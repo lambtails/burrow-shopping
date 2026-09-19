@@ -30,12 +30,12 @@
                 <option value="aldi">Aldi</option>
             </select>
         </label>
-        <input type="button" onclick="prompt('Add new grocery')">
+        <input type="button" id="new-item" value="New item">
     </div>
     <div class="grid"> {% for row in data %} <label
             class="item{% if row['coles'] == 'true'%} coles{% endif %}{% if row['aldi'] == 'true'%} aldi{% endif %}"
             style="{% if row['colour']|length != 0 %}--icon-color: {{row['colour']}};{% endif %}"
-            data-search="{{row['groceryname']|lower}} {{row['category']|lower}} {{row['tags'|lower]}}"
+            data-search="{{row['groceryname']|upper}} {{row['category']|upper}} {{row['tags'|upper]}}"
         >
             <input
                 type="checkbox"
