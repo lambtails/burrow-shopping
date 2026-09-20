@@ -4,30 +4,21 @@ import sqlite3
 import datetime
 import csv
 import re
+import logging
+
 
 # Create database connection
 db = "database.db"
 detect_types = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+sqlite3.register_adapter(datetime.datetime, lambda value: value.isoformat(" "))
+sqlite3.register_converter(
+    "timestamp", lambda value: datetime.datetime.fromisoformat(value.decode())
+)
 
 
 def setup_database():
     # Create database table if it doesn't exist
     with sqlite3.connect(db, detect_types=detect_types) as connect:
-        connect.execute("""
-            CREATE TABLE IF NOT EXISTS groceries (
-                groceryname TEXT NOT NULL PRIMARY KEY,
-                category TEXT,
-                icon TEXT,
-                tags TEXT,
-                aldi BOOL,
-                coles BOOL
-            );
-            """)
-        connect.execute("""
-            CREATE TABLE IF NOT EXISTS usergroceries (
-                groceryname TEXT NOT NULL PRIMARY KEY
-            );
-            """)
         connect.execute("""
             CREATE TABLE IF NOT EXISTS categories (
                 category TEXT NOT NULL PRIMARY KEY,
@@ -36,13 +27,30 @@ def setup_database():
             );
             """)
         connect.execute("""
+            CREATE TABLE IF NOT EXISTS groceries (
+                grocery TEXT NOT NULL PRIMARY KEY,
+                category TEXT NOT NULL,
+                icon TEXT,
+                tags TEXT,
+                aldi BOOL,
+                coles BOOL,
+                FOREIGN KEY(category) REFERENCES categories(category)
+                UNIQUE(grocery)
+            );
+            """)
+        connect.execute("""
+            CREATE TABLE IF NOT EXISTS usergroceries (
+                grocery TEXT NOT NULL PRIMARY KEY
+            );
+            """)
+        connect.execute("""
             CREATE TABLE IF NOT EXISTS shoppinglist (
                 rowid INTEGER NOT NULL PRIMARY KEY,
-                listgrocery TEXT NOT NULL,
+                grocery TEXT NOT NULL,
                 lastupdated TIMESTAMP,
                 done BOOL NOT NULL,
-                FOREIGN KEY(listgrocery) REFERENCES groceries(groceryname),
-                UNIQUE(listgrocery)
+                FOREIGN KEY(grocery) REFERENCES groceries(grocery),
+                UNIQUE(grocery)
             );
             """)
 
@@ -101,7 +109,7 @@ def setup_database():
                 # Add new rows for groceries
                 cursor.execute(
                     """
-                    INSERT OR IGNORE INTO groceries (groceryname, category, icon, aldi, coles, tags) 
+                    INSERT OR IGNORE INTO groceries (grocery, category, icon, aldi, coles, tags) 
                     VALUES (?,?,?,?,?,?);
                     """,
                     (name, category, icon, aldi, coles, tags),
@@ -112,7 +120,7 @@ def setup_database():
                     """
                     UPDATE groceries
                     SET category=?, icon=?, aldi=?, coles=?, tags=?
-                    WHERE groceryname=?;
+                    WHERE grocery=?;
                     """,
                     (category, icon, aldi, coles, tags, name),
                 )
@@ -120,7 +128,7 @@ def setup_database():
                 # Also add new groceries into the shopping list (so they can be shopped)
                 cursor.execute(
                     """
-                    INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
+                    INSERT OR IGNORE INTO shoppinglist (grocery, lastupdated, done) 
                     VALUES (?,?,?);
                     """,
                     (name, datetime.datetime.now(), True),
@@ -132,6 +140,9 @@ def setup_database():
 # Start flask app and define URL routes
 app = Flask(__name__, static_folder="static")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 setup_database()
 
 
@@ -142,14 +153,14 @@ def index():
         cursor = connect.cursor()
         cursor.execute(
             """
-            SELECT rowid, groceries.groceryname AS groceryname, categories.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
+            SELECT rowid, groceries.grocery AS grocery, categories.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
             FROM shoppinglist
-            INNER JOIN groceries ON shoppinglist.listgrocery = groceries.groceryname
+            INNER JOIN groceries ON shoppinglist.grocery = groceries.grocery
             INNER JOIN categories ON groceries.category = categories.category
             UNION
-            SELECT rowid, usergroceries.groceryname AS groceryname, "USER" AS category, NULL AS icon, colour, "true" AS aldi, "true" AS coles, "" AS tags, lastupdated, done, modifier
+            SELECT rowid, usergroceries.grocery AS grocery, "USER" AS category, NULL AS icon, colour, "true" AS aldi, "true" AS coles, "" AS tags, lastupdated, done, modifier
             FROM shoppinglist
-            INNER JOIN usergroceries ON shoppinglist.listgrocery = usergroceries.groceryname
+            INNER JOIN usergroceries ON shoppinglist.grocery = usergroceries.grocery
             INNER JOIN categories ON categories.category = "USER"
             ORDER BY done ASC, categories.category ASC, lastupdated ASC
             """,
@@ -210,34 +221,24 @@ def new_item():
     with sqlite3.connect(db, detect_types=detect_types) as connect:
         cursor = connect.cursor()
 
+        # TODO: Add code to check that grocery isn't already in groceries table
+
         # Add to groceries database
         cursor.execute(
             """
-            INSERT OR IGNORE INTO usergroceries (groceryname) 
+            INSERT OR IGNORE INTO usergroceries (grocery) 
             VALUES (?);
             """,
             (name,),
         )
 
-        # Add to shopping list
+        # Add grocery to the shopping list
         cursor.execute(
             """
-            INSERT OR IGNORE INTO shoppinglist (listgrocery, lastupdated, done) 
+            INSERT OR IGNORE INTO shoppinglist (grocery, lastupdated, done) 
             VALUES (?,?,?);
             """,
             (name, datetime.datetime.now(), False),
-        )
-
-        # Set done to False since we assume the user wants to mark new items for shopping
-        # This also means if the user enters an item already in the list, it will still update something
-        # Rather than appearing to fail silently
-        cursor.execute(
-            """
-            UPDATE shoppinglist
-            SET done=?, lastupdated=?
-            WHERE listgrocery=?;
-            """,
-            (False, datetime.datetime.now(), name),
         )
 
         connect.commit()

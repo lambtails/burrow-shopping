@@ -35,7 +35,7 @@
     <div class="grid"> {% for row in data %} <label
             class="item{% if row['coles'] == 'true'%} coles{% endif %}{% if row['aldi'] == 'true'%} aldi{% endif %}"
             style="{% if row['colour']|length != 0 %}--icon-color: {{row['colour']}};{% endif %}"
-            data-search="{{row['groceryname']|upper}} {{row['category']|upper}} {{row['tags'|upper]}}"
+            data-search="{{row['grocery']|upper}} {{row['category']|upper}} {{row['tags'|upper]}}"
         >
             <input
                 type="checkbox"
@@ -47,7 +47,7 @@
                 src="{{ url_for('static', filename='icon/'+row['icon']) }}"
             >{% endif %} {% if row['modifier']|length != 0 %}<div class="modifier-right"><img
                     src="{{ url_for('static', filename='ui/'+row['modifier']) }}"
-                ></div>{% endif %} <span>{{row['groceryname']}}</span>
+                ></div>{% endif %} <span>{{row['grocery']}}</span>
         </label> {% endfor %} {% if data|length == 0 %}<p id="no-groceries-found">No groceries found</p>{% endif %}
     </div>
     <script src="{{ url_for('static', filename='burrow-shopping.js') }}"></script>
