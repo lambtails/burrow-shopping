@@ -35,7 +35,7 @@ Steak,meat,steak.png,true,true,beef
 Casserole beef,meat,,true,true,
 Ham,meat,,true,true,pork
 Sliced tasty,dairy,,true,true,cheese
-American cheese,dairy,,true,true,cheese
+Plastic cheese,dairy,,true,false,cheese
 Grated tasty,dairy,,true,true,cheese
 Grated mozzarella,dairy,,true,true,cheese
 Yoghurt,dairy,,false,true,
@@ -54,14 +54,15 @@ Electrolyte tablets,health,electrolytetablet.png,true,true,
 Vitamin C tablets,health,,true,true,
 Vaporub,health,vaporub.png,false,true,
 Throat lozenges,health,,false,true,
-Bandaids,health,,false,true,
-Toilet paper,household,,true,true,
-Paper towel,household,papertowel.png,true,true,cleaning
-Dishwasher powder,household,,true,false,
-Dish sponge,household,sponge.png,true,true,cleaning
+Bandaids,health,,false,true,bandages
+Toilet paper,household,,true,true,bathroom
+Paper towel,household,papertowel.png,true,true,cleaning kitchen
+Dishwasher powder,household,,true,false,kitchen
+Dish sponge,household,sponge.png,true,true,cleaning kitchen
 Nitrile gloves,household,nitrilegloves.png,false,true,cleaning
-Foam soap refill,household,,true,false,
-Stain remover,household,,true,true,cleaning
+Foam soap refill,household,,true,false,bathroom kitchen
+Stain remover,household,,true,true,cleaning laundry
+Laundry powder,household,,true,true,cleaning clothes washing
 Protein bars,snacks,,true,false,
 Popcorn,snacks,,false,true,
 Corn chips,snacks,,false,true,mexican

@@ -24,6 +24,11 @@ def setup_database():
             );
             """)
         connect.execute("""
+            CREATE TABLE IF NOT EXISTS usergroceries (
+                groceryname TEXT NOT NULL PRIMARY KEY
+            );
+            """)
+        connect.execute("""
             CREATE TABLE IF NOT EXISTS categories (
                 category TEXT NOT NULL PRIMARY KEY,
                 colour TEXT,
@@ -137,20 +142,27 @@ def index():
         cursor = connect.cursor()
         cursor.execute(
             """
-            SELECT rowid, groceryname, groceries.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
+            SELECT rowid, groceries.groceryname AS groceryname, categories.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
             FROM shoppinglist
             INNER JOIN groceries ON shoppinglist.listgrocery = groceries.groceryname
             INNER JOIN categories ON groceries.category = categories.category
-            ORDER BY done ASC, groceries.category ASC, lastupdated ASC;
+            UNION
+            SELECT rowid, usergroceries.groceryname AS groceryname, "USER" AS category, NULL AS icon, colour, "true" AS aldi, "true" AS coles, "" AS tags, lastupdated, done, modifier
+            FROM shoppinglist
+            INNER JOIN usergroceries ON shoppinglist.listgrocery = usergroceries.groceryname
+            INNER JOIN categories ON categories.category = "USER"
+            ORDER BY done ASC, categories.category ASC, lastupdated ASC
             """,
         )
         names = list(map(lambda x: x[0], cursor.description))
         data = [dict(zip(names, row)) for row in cursor.fetchall()]
-        defaults = {"icon": "pixel.png", "aldi": "true", "coles": "true"}
+        defaults = {
+            "icon": "pixel.png",
+        }
         for i in range(len(data)):
             row = data[i]
             for k, v in defaults.items():
-                if row[k] == "":
+                if row[k] == "" or row[k] is None:
                     row[k] = v
             data[i] = row
         cursor.close()
@@ -201,10 +213,10 @@ def new_item():
         # Add to groceries database
         cursor.execute(
             """
-            INSERT OR IGNORE INTO groceries (groceryname, category, icon, aldi, coles, tags) 
-            VALUES (?,?,?,?,?,?);
+            INSERT OR IGNORE INTO usergroceries (groceryname) 
+            VALUES (?);
             """,
-            (name, "DEFAULT", "", True, True, ""),
+            (name,),
         )
 
         # Add to shopping list
