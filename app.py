@@ -99,30 +99,31 @@ def setup_database():
             cursor = connect.cursor()
             for row in grocery_reader:
                 # Get CSV data
-                name = row[0].upper()
+                product = row[0].upper()
                 category = row[1].upper()
-                icon = row[2]
-                aldi = row[3]
-                coles = row[4]
-                tags = row[5].upper()
+                tags = row[2].upper()
+                icon = row[3]
+                aldi = row[4]
+                coles = row[5]
+                chemist = row[6]
 
                 # Add new rows for groceries
                 cursor.execute(
                     """
-                    INSERT OR IGNORE INTO groceries (grocery, category, icon, aldi, coles, tags) 
+                    INSERT OR IGNORE INTO groceries (grocery, category, icon, tags, aldi, coles) 
                     VALUES (?,?,?,?,?,?);
                     """,
-                    (name, category, icon, aldi, coles, tags),
+                    (product, category, icon, tags, aldi, coles),
                 )
 
                 # Update all existing groceries with any new data
                 cursor.execute(
                     """
                     UPDATE groceries
-                    SET category=?, icon=?, aldi=?, coles=?, tags=?
+                    SET category=?, icon=?, tags=?, aldi=?, coles=?
                     WHERE grocery=?;
                     """,
-                    (category, icon, aldi, coles, tags, name),
+                    (category, icon, tags, aldi, coles, product),
                 )
 
                 # Also add new groceries into the shopping list (so they can be shopped)
@@ -131,7 +132,7 @@ def setup_database():
                     INSERT OR IGNORE INTO shoppinglist (grocery, lastupdated, done) 
                     VALUES (?,?,?);
                     """,
-                    (name, datetime.datetime.now(), True),
+                    (product, datetime.datetime.now(), True),
                 )
             connect.commit()
             cursor.close()
@@ -153,12 +154,12 @@ def index():
         cursor = connect.cursor()
         cursor.execute(
             """
-            SELECT rowid, groceries.grocery AS grocery, categories.category AS category, icon, colour, aldi, coles, tags, lastupdated, done, modifier
+            SELECT rowid, groceries.grocery AS grocery, categories.category AS category, icon, colour, tags, lastupdated, done, modifier, aldi, coles
             FROM shoppinglist
             INNER JOIN groceries ON shoppinglist.grocery = groceries.grocery
             INNER JOIN categories ON groceries.category = categories.category
             UNION
-            SELECT rowid, usergroceries.grocery AS grocery, "USER" AS category, NULL AS icon, colour, "true" AS aldi, "true" AS coles, "" AS tags, lastupdated, done, modifier
+            SELECT rowid, usergroceries.grocery AS grocery, "USER" AS category, NULL AS icon, colour, "" AS tags, lastupdated, done, modifier, "true" AS aldi, "true" AS coles
             FROM shoppinglist
             INNER JOIN usergroceries ON shoppinglist.grocery = usergroceries.grocery
             INNER JOIN categories ON categories.category = "USER"
@@ -169,6 +170,8 @@ def index():
         data = [dict(zip(names, row)) for row in cursor.fetchall()]
         defaults = {
             "icon": "pixel.png",
+            "aldi": "true",
+            "coles": "true"
         }
         for i in range(len(data)):
             row = data[i]
@@ -249,4 +252,4 @@ def new_item():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=5000)

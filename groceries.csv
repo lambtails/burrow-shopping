@@ -1,147 +1,147 @@
-Product,Category,Icon,Aldi,Coles,Tags
-Apples,fruit,apples.png,true,true,
-Bananas,fruit,,true,true,
-Oranges,fruit,,true,true,
-Mandarins,fruit,,true,true,
-Lemon,fruit,,true,true,
-Lime,fruit,,true,true,
-Brown Onions,veggies,,true,true,vegetables
-Red Onions,veggies,,true,true,vegetables
-Garlic,veggies,,true,true,vegetables
-Broccoli,veggies,,true,true,vegetables
-Broccolini,veggies,,true,true,vegetables
-Green beans,veggies,,true,true,vegetables
-Mushrooms,veggies,,true,true,vegetables
-Potatoes,veggies,,true,true,vegetables
-Carrots,veggies,carrots.png,true,true,vegetables
-Red capsicum,veggies,redcapsicum.png,true,true,vegetables
-Green capsicum,veggies,,true,true,vegetables
-Zucchini,veggies,,true,true,vegetables
-Parsley,veggies,,true,true,vegetables herbs
-Ginger,veggies,,true,true,vegetables spices
-Frozen peas,freezer,,true,true,veggies vegetables
-Frozen corn,freezer,cornkernels.png,true,true,veggies vegetables
-Meat pies,freezer,,true,true,
-Frozen strawberry,freezer,,true,true,fruit
-Frozen blueberry,freezer,,true,true,fruit
-Frozen mango,freezer,mango.png,true,true,fruit
-Ice cream,freezer,,true,true,dessert
-Bacon,meat,bacon.png,true,true,pork
-Hot dogs,meat,,true,false,pork
-Chicken breast,meat,,true,true,
-Beef mince,meat,,true,true,
-Pork + beef mince,meat,,true,true,
-Steak,meat,steak.png,true,true,beef
-Casserole beef,meat,,true,true,
-Ham,meat,,true,true,pork
-Sliced tasty,dairy,,true,true,cheese
-Plastic cheese,dairy,,true,false,cheese
-Grated tasty,dairy,,true,true,cheese
-Grated mozzarella,dairy,,true,true,cheese
-Yoghurt,dairy,,false,true,
-Table spread,dairy,tablespread.png,true,false,butter
-Butter,dairy,butter.png,true,true,
-Milk,dairy,,true,true,
-Sour cream,dairy,,true,true,
-Orange juice,juice,,true,true,
-Eggs,eggs,,true,true,
-Floss picks,personal care,flosspick.png,true,true,dental teeth
-Makeup removal pads,personal care,makeup-removers.png,true,true,
-Sensodyne toothpaste,personal care,sensodyne.png,true,true,dental teeth
-Colgate toothpaste,personal care,colgate.png,true,true,dental teeth
-Toothbrush heads,personal care,,true,true,dental teeth
-Electrolyte tablets,health,electrolytetablet.png,true,true,
-Vitamin C tablets,health,,true,true,
-Vaporub,health,vaporub.png,false,true,
-Throat lozenges,health,,false,true,
-Bandaids,health,,false,true,bandages
-Toilet paper,household,,true,true,bathroom
-Paper towel,household,papertowel.png,true,true,cleaning kitchen
-Dishwasher powder,household,,true,false,kitchen
-Dish sponge,household,sponge.png,true,true,cleaning kitchen
-Nitrile gloves,household,nitrilegloves.png,false,true,cleaning
-Foam soap refill,household,,true,false,bathroom kitchen
-Stain remover,household,,true,true,cleaning laundry
-Laundry powder,household,,true,true,cleaning clothes washing
-Protein bars,snacks,,true,false,
-Popcorn,snacks,,false,true,
-Corn chips,snacks,,false,true,mexican
-Nacho chips,snacks,,false,true,corn chips mexican
-Cookies,snacks,,false,true,
-Gummy worms,snacks,gummyworms.png,true,true,
-Rice crackers,snacks,,true,false,
-Cola,drinks,,true,true,pepsi
-Hot chocolate,drinks,hotchoc.png,false,true,
-Mother,drinks,mother.png,false,true,energy drinks
-Flying power,drinks,,true,false,energy drinks
-Cocoa bombs,cereal,cocoabombs.png,false,true,chocolate
-Fruity rings,cereal,fruityrings.png,true,false,
-Rice,grains and pasta,,true,true,
-Spiral pasta,grains and pasta,,true,true,
-Penne pasta,grains and pasta,,true,true,
-Spaghetti,grains and pasta,,true,true,
-Hard tacos,grains and pasta,,false,true,mexican
-Soft tacos,grains and pasta,,false,true,mexican
-GF bread crumbs,grains and pasta,,false,true,
-Rice noodles,grains and pasta,,true,false,
-GF bread,bread,,true,false,
-Bread,bread,,true,true,
-Green curry paste,sauces,,true,true,thai
-Red curry paste,sauces,,true,true,thai
-Massaman curry paste,sauces,,true,true,
-Hoisin sauce,sauces,,false,true,
-Balsamic vinegar,sauces,,false,true,
-Salsa,sauces,,false,true,mexican
-Tomato paste,sauces,,true,true,
-Kewpie,sauces,kewpie.png,false,true,mayo
-Kewpie Sriracha,sauces,kewpiesriracha.png,false,true,mayo
-Tomato sauce,sauces,tomatosauce.png,true,false,red
-American mustard,sauces,mustard.png,false,true,yellow mustard
-Wholegrain mustard,sauces,,true,true,
-Dijon mustard,sauces,,true,true,
-Mayo,sauces,,true,true,
-Soy sauce,sauces,,false,true,
-Worcestershire sauce,sauces,,true,true,
-Fish sauce,sauces,,false,true,
-Oyster sauce,sauces,,false,true,
-Lemon juice,sauces,,true,true,
-Lime juice,sauces,,true,true,
-Chicken stock,sauces,,true,true,
-Black beans,canned,,true,true,
-Pinto beans,canned,,true,true,
-Kidney beans,canned,,true,true,
-Canned corn,canned,cannedcorn.png,true,true,
-Coconut milk,canned,,true,true,
-Garlic powder,spices,,false,true,
-Onion powder,spices,,false,true,
-Paprika,spices,,false,true,
-Salt,spices,salt.png,true,true,
-Pepper,spices,,true,true,
-Curry powder,spices,currypowder.png,false,true,
-Cayenne pepper,spices,,false,true,
-Chilli flakes,spices,,false,true,
-Chilli powder,spices,,false,true,
-Paprika,spices,,false,true,
-Sweet paprika,spices,,false,true,
-Cinnamon,spices,,false,true,
-Nutmeg,spices,,false,true,
-Turmeric,spices,,false,true,
-Ginger ground,spices,,false,true,
-Coriander powder,spices,,false,true,
-Cumin,spices,,false,true,
-Garam masala,spices,,false,true,
-Bay leaves,spices,,false,true,herbs
-Rosemary,spices,,false,true,herbs
-Thyme,spices,,false,true,herbs
-Oregano,spices,,false,true,herbs
-Basil,spices,,false,true,herbs
-Chives,spices,,false,true,herbs
-Fennel,spices,,false,true,herbs
-Fenugreek,spices,,false,true,herbs
-Galangal,spices,,false,true,herbs
-Italian herb mix,spices,,false,true,herbs
-Cardamom pods,spices,,false,true,herbs
-Cloves,spices,,false,true,
-Mint leaves,spices,,false,true,herbs
-Tarragon,spices,,false,true,herbs
-Chicken powder,spices,,true,true,
+Product,Category,Tags,Icon,Aldi,Coles,Chemist
+Apples,fruit,,apples.png,true,true,false
+Bananas,fruit,,,true,true,false
+Oranges,fruit,,,true,true,false
+Mandarins,fruit,,,true,true,false
+Lemon,fruit,,,true,true,false
+Lime,fruit,,,true,true,false
+Brown Onions,veggies,,,true,true,false
+Red Onions,veggies,vegetables,,true,true,false
+Garlic,veggies,vegetables,,true,true,false
+Broccoli,veggies,vegetables,,true,true,false
+Broccolini,veggies,vegetables,,true,true,false
+Green beans,veggies,vegetables,,true,true,false
+Mushrooms,veggies,vegetables,,true,true,false
+Potatoes,veggies,vegetables,,true,true,false
+Carrots,veggies,vegetables,carrots.png,true,true,false
+Red capsicum,veggies,vegetables,redcapsicum.png,true,true,false
+Green capsicum,veggies,vegetables,,true,true,false
+Zucchini,veggies,vegetables,,true,true,false
+Parsley,veggies,vegetables herbs,,true,true,false
+Ginger,veggies,vegetables spices,,true,true,false
+Frozen peas,freezer,veggies vegetables,peas.png,true,true,false
+Frozen corn,freezer,veggies vegetables,cornkernels.png,true,true,false
+Meat pies,freezer,,,true,true,false
+Frozen strawberry,freezer,fruit,,true,true,false
+Frozen blueberry,freezer,fruit,,true,true,false
+Frozen mango,freezer,fruit,mango.png,true,true,false
+Ice cream,freezer,dessert,,true,true,false
+Bacon,meat,pork,bacon.png,true,true,false
+Hot dogs,meat,pork hotdogs,hotdogs.png,true,false,false
+Chicken breast,meat,,chickenbreast.png,true,true,false
+Beef mince,meat,,beefmince.png,true,true,false
+Pork + beef mince,meat,,porkmince.png,true,true,false
+Steak,meat,beef,steak.png,true,true,false
+Casserole beef,meat,,casserole.png,true,true,false
+Ham,meat,pork,ham.png,true,true,false
+Sliced tasty,dairy,cheese,,true,true,false
+Plastic cheese,dairy,cheese,,true,false,false
+Grated tasty,dairy,cheese,,true,true,false
+Grated mozzarella,dairy,cheese,,true,true,false
+Yoghurt,dairy,,,false,true,false
+Table spread,dairy,butter,tablespread.png,true,false,false
+Butter,dairy,,butter.png,true,true,false
+Milk,dairy,,,true,true,false
+Sour cream,dairy,,,true,true,false
+Orange juice,juice,,,true,true,false
+Eggs,eggs,,,true,true,false
+Floss picks,personal care,dental teeth,flosspick.png,true,true,true
+Sensodyne toothpaste,personal care,dental teeth,sensodyne.png,true,true,true
+Colgate toothpaste,personal care,dental teeth,colgate.png,true,true,true
+Toothbrush heads,personal care,dental teeth,toothbrushheads.png,true,true,true
+Makeup removal pads,personal care,beauty,makeup-removers.png,true,true,true
+Electrolyte tablets,health,,electrolytetablet.png,true,true,true
+Vitamin C tablets,health,,,true,true,true
+Vaporub,health,,vaporub.png,false,true,true
+Throat lozenges,health,,,false,true,true
+Bandaids,health,bandages,,false,true,true
+Toilet paper,household,bathroom,,true,true,false
+Paper towel,household,cleaning kitchen,papertowel.png,true,true,false
+Dishwasher powder,household,kitchen,,true,false,false
+Dish sponge,household,cleaning kitchen,sponge.png,true,true,false
+Nitrile gloves,household,cleaning,nitrilegloves.png,false,true,true
+Foam soap refill,household,bathroom kitchen,,true,false,false
+Stain remover,household,cleaning laundry,,true,true,false
+Laundry powder,household,cleaning clothes washing,,true,true,false
+Protein bars,snacks,,,true,false,false
+Popcorn,snacks,,,false,true,false
+Corn chips,snacks,mexican,,false,true,false
+Nacho chips,snacks,corn chips mexican,,false,true,false
+Cookies,snacks,,cookies.png,false,true,false
+Gummy worms,snacks,,gummyworms.png,true,true,false
+Rice crackers,snacks,,,true,false,false
+Cola,drinks,pepsi coke,,true,true,false
+Hot chocolate,drinks,,hotchoc.png,false,true,false
+Mother,drinks,energy drinks,mother.png,false,true,false
+Flying power,drinks,energy drinks,,true,false,false
+Cocoa bombs,cereal,chocolate,cocoabombs.png,false,true,false
+Fruity rings,cereal,,fruityrings.png,true,false,false
+Rice,grains and pasta,,,true,true,false
+Spiral pasta,grains and pasta,,,true,true,false
+Penne pasta,grains and pasta,,,true,true,false
+Spaghetti,grains and pasta,,,true,true,false
+Hard tacos,grains and pasta,mexican,,false,true,false
+Soft tacos,grains and pasta,mexican,,false,true,false
+GF bread crumbs,grains and pasta,,,false,true,false
+Rice noodles,grains and pasta,,,true,false,false
+GF bread,bread,,,true,false,false
+Bread,bread,,,true,true,false
+Green curry paste,sauces,thai,,true,true,false
+Red curry paste,sauces,thai,,true,true,false
+Massaman curry paste,sauces,,,true,true,false
+Hoisin sauce,sauces,,,false,true,false
+Balsamic vinegar,sauces,,,false,true,false
+Salsa,sauces,mexican,,false,true,false
+Tomato paste,sauces,,,true,true,false
+Kewpie,sauces,mayo,kewpie.png,false,true,false
+Kewpie Sriracha,sauces,mayo,kewpiesriracha.png,false,true,false
+Tomato sauce,sauces,red,tomatosauce.png,true,false,false
+American mustard,sauces,yellow mustard,mustard.png,false,true,false
+Wholegrain mustard,sauces,,,true,true,false
+Dijon mustard,sauces,,,true,true,false
+Mayo,sauces,,,true,true,false
+Soy sauce,sauces,,,false,true,false
+Worcestershire sauce,sauces,,,true,true,false
+Fish sauce,sauces,,,false,true,false
+Oyster sauce,sauces,,,false,true,false
+Lemon juice,sauces,,,true,true,false
+Lime juice,sauces,,,true,true,false
+Chicken stock,sauces,,,true,true,false
+Black beans,canned,,,true,true,false
+Pinto beans,canned,,,true,true,false
+Kidney beans,canned,,,true,true,false
+Canned corn,canned,,cannedcorn.png,true,true,false
+Coconut milk,canned,,,true,true,false
+Garlic powder,spices,,,false,true,false
+Onion powder,spices,,,false,true,false
+Paprika,spices,,,false,true,false
+Salt,spices,,salt.png,true,true,false
+Pepper,spices,,pepper.png,true,true,false
+Curry powder,spices,,currypowder.png,false,true,false
+Cayenne pepper,spices,,,false,true,false
+Chilli flakes,spices,,,false,true,false
+Chilli powder,spices,,,false,true,false
+Paprika,spices,,,false,true,false
+Sweet paprika,spices,,,false,true,false
+Cinnamon,spices,,,false,true,false
+Nutmeg,spices,,,false,true,false
+Turmeric,spices,,,false,true,false
+Ginger ground,spices,,,false,true,false
+Coriander powder,spices,,,false,true,false
+Cumin,spices,,,false,true,false
+Garam masala,spices,,,false,true,false
+Bay leaves,spices,herbs,,false,true,false
+Rosemary,spices,herbs,,false,true,false
+Thyme,spices,herbs,,false,true,false
+Oregano,spices,herbs,,false,true,false
+Basil,spices,herbs,,false,true,false
+Chives,spices,herbs,,false,true,false
+Fennel,spices,herbs,,false,true,false
+Fenugreek,spices,herbs,,false,true,false
+Galangal,spices,herbs,,false,true,false
+Italian herb mix,spices,herbs,,false,true,false
+Cardamom pods,spices,herbs,,false,true,false
+Cloves,spices,,,false,true,false
+Mint leaves,spices,herbs,,false,true,false
+Tarragon,spices,herbs,,false,true,false
+Chicken powder,spices,,,true,true,false
